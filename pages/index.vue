@@ -8,19 +8,21 @@
         <v-card-text class="mt-10">
           <p>入力した時給を元に、稼いでいるお金をリアルタイムで確認できます。</p>
           <v-text-field
+            v-model="wage"
             label="時給"
             :rules="rules"
             hide-details="auto"
             hint="円"
             persistent-hint
-          ></v-text-field>
+          />
+          <p>{{ wage }}</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
             color="primary"
             nuxt
-            to="/inspire"
+            to="/count-wage"
           >
             決定
           </v-btn>
@@ -31,21 +33,23 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   components: {
-    Logo,
-    VuetifyLogo
   },
   data: () => ({
     rules: [
       value => !!value || '必須項目です。',
       value => (!Number.isNaN(Number(value)) && Number.isInteger(Number(value))) || '全て半角数字で整数を入力して下さい。',
       value => value >= 792 || '最低賃金は792円です。',
-      value => value <= Number.MAX_SAFE_INTEGER || '時給高すぎません？',
-    ],
+      value => value <= Number.MAX_SAFE_INTEGER || '時給高すぎません？'
+    ]
   }),
-}
+  computed: {
+    wage () {
+      return this.$accessor.wage.wage
+    }
+  }
+})
 </script>
