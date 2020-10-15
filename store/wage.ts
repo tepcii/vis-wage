@@ -17,7 +17,7 @@ export const mutations = mutationTree(state, {
 })
 
 export const actions = actionTree({ state, getters, mutations }, {
-  getOlder ({ getters, commit }) {
+  getWage ({ getters, commit }) {
     const currentWage = getters.wage
     commit('setWage', currentWage + 1)
   }
