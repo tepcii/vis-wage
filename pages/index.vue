@@ -7,15 +7,20 @@
         </v-card-title>
         <v-card-text class="mt-10">
           <p>入力した時給を元に、稼いでいるお金をリアルタイムで確認できます。</p>
-          <v-text-field
-            v-model="wage"
-            label="時給"
-            :rules="rules"
-            hide-details="auto"
-            hint="円"
-            persistent-hint
-          />
-          <p>{{ wage }}</p>
+          <v-form
+            ref="form"
+          >
+            <v-text-field
+              :value="wage"
+              @input="inputWage($event)"
+              type="number"
+              label="時給"
+              :rules="rules"
+              hide-details="auto"
+              hint="円"
+              persistent-hint
+            />
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -23,6 +28,7 @@
             color="primary"
             nuxt
             to="/count-wage"
+            v-bind:disabled="isValid"
           >
             決定
           </v-btn>
@@ -43,12 +49,23 @@ export default Vue.extend({
       value => !!value || '必須項目です。',
       value => (!Number.isNaN(Number(value)) && Number.isInteger(Number(value))) || '全て半角数字で整数を入力して下さい。',
       value => value >= 792 || '最低賃金は792円です。',
-      value => value <= Number.MAX_SAFE_INTEGER || '時給高すぎません？'
-    ]
+      value => value <= Number.MAX_SAFE_INTEGER || '時給高すぎません？羨ましい'
+    ],
+    isValid: true
   }),
   computed: {
     wage () {
       return this.$accessor.wage.wage
+    }
+  },
+  methods: {
+    inputWage (e) {
+      if (this.$refs.form.validate()) {
+        this.isValid = false
+      } else {
+        this.isValid = true
+      }
+      this.$accessor.wage.setWage(Number(e))
     }
   }
 })
