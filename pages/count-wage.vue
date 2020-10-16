@@ -97,7 +97,7 @@ export default Vue.extend({
   methods: {
     onClick () {
       if (this.wage === Number(this.currentWage)) {
-        this.currentWage = 0
+        this.tween.play(0)
       }
       if (this.isFirstClick) {
         this.tween = TweenMax.to(this, this.maxTime, {
