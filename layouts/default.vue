@@ -6,6 +6,10 @@
       app
     >
       <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <a href="https://github.com/tepcii/vis-wage">
+        <v-icon>mdi-github</v-icon>
+      </a>
     </v-app-bar>
     <v-main>
       <v-container>
