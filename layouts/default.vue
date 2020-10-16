@@ -20,7 +20,7 @@
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }} Tenma Endou.</span>
+      <span>&copy; {{ new Date().getFullYear() }} Tenma Endou. All Rights Reserved!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
     </v-footer>
   </v-app>
 </template>
