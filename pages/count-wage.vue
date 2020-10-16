@@ -6,9 +6,16 @@
           <h1>稼いだ金額</h1>
         </v-card-title>
         <v-card-text class="mt-10">
-          <v-row justify="start" align="center" class="mb-6">
+          <v-row justify="start" align="center">
             <p>
               時給：{{ wage }}円
+            </p>
+          </v-row>
+          <v-row justify="start" align="center" class="mb-6">
+            <p
+              class="text-right"
+            >
+              {{ currentTime }}秒経過
             </p>
           </v-row>
           <v-row justify="end" align="center">
@@ -22,8 +29,9 @@
           <v-row>
             <v-slider
               min="0"
-              :max="wage"
-              :value="currentWage"
+              :max="maxTime"
+              :value="currentTime"
+              :disabled="isFirstClick"
               @input="onSliderMovin"
               @change="onSliderChange"
             />
@@ -54,13 +62,14 @@
 
 <script>
 import Vue from 'vue'
-import { TweenMax, Power0 } from 'gsap'
+import { TweenMax, Linear } from 'gsap'
 
 export default Vue.extend({
   data: () => ({
     inPlaying: false,
     btnColor: '#2ecc40',
     currentWage: 0,
+    currentTime: 0,
     tween: null,
     maxTime: 3600,
     isFirstClick: true
@@ -93,8 +102,9 @@ export default Vue.extend({
       if (this.isFirstClick) {
         this.tween = TweenMax.to(this, this.maxTime, {
           currentWage: this.$accessor.wage.wage,
+          currentTime: this.maxTime,
           paused: true,
-          ease: Power0.easeNone,
+          ease: Linear.easeNone,
           onUpdate: () => {
             const parts = this.currentWage.toString().split('.')
             this.currentWage = parts[0]
@@ -105,18 +115,13 @@ export default Vue.extend({
       this.inPlaying = !this.inPlaying
     },
     onSliderMovin (e) {
-      this.currentWage = e
-      TweenMax.set(this, {
-        currentWage: e
-      })
+      this.currentTime = e
     },
-    onSliderChange () {
-      // const diff = e - this.currentWage
-      // this.tween.seek('+=2')
+    onSliderChange (e) {
+      this.tween.time(e)
     },
     finished () {
       this.inPlaying = false
-      this.isFirstClick = true
     }
   }
 })
