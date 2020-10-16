@@ -7,18 +7,21 @@
         </v-card-title>
         <v-card-text class="mt-10">
           <p>入力した時給を元に、稼いでいるお金をリアルタイムで確認できます。</p>
+          <p class="warn">
+            Nuxt.jsの勉強がてら適当に作っただけです！バグとかソースの汚さは気にしないで！バックグラウンドでは動きません！
+          </p>
           <v-form
             ref="form"
           >
             <v-text-field
               :value="wage"
-              @input="inputWage($event)"
               type="number"
               label="時給"
               :rules="rules"
               hide-details="auto"
               hint="円"
               persistent-hint
+              @input="inputWage($event)"
             />
           </v-form>
         </v-card-text>
@@ -28,7 +31,7 @@
             color="primary"
             nuxt
             to="/count-wage"
-            v-bind:disabled="isValid"
+            :disabled="isValid"
           >
             決定
           </v-btn>
@@ -70,3 +73,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style>
+.warn {
+  color: yellow;
+}
+</style>
